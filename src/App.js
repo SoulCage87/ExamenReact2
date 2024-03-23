@@ -4,6 +4,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.js'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { MostrarCategorias } from './components/MostrarCategorias';
 import { AgregarCategoria } from './components/AgregarCategoria';
+import { EditCategoria } from './components/EditCategoria';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path='/' element={<MostrarCategorias />} />
         <Route path='/Agregar' element={<AgregarCategoria />} />
+        <Route path='/Editar/:id' element={<EditCategoria />} />
       </Routes>
     </BrowserRouter>
     </div>

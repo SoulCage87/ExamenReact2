@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export const MostrarCategorias = () => {
-    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const navigate = useNavigate()
 
    
@@ -12,7 +12,7 @@ export const MostrarCategorias = () => {
         try {
             const url = `https://api.escuelajs.co/api/v1/categories`;
             const response = await axios.get(url);
-            setProducts(response.data);
+            setCategories(response.data);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -20,16 +20,20 @@ export const MostrarCategorias = () => {
 
     useEffect(() => {
         getCategories();
-    });
+    }, []);
 
     const agregar = () => {
         navigate('/Agregar')
     }
 
+    const editar = (id) => {
+        navigate(`Editar/${id}`)
+    }
+
     const handleDelete = async (id) => {
         try {
-            const url = `https://api.escuelajs.co/api/v1/categories`;
-            await axios.delete(`${url}/${id}`);
+            const url = `https://api.escuelajs.co/api/v1/categories/${id}`;
+            await axios.delete(url);
             getCategories();
         } catch (error) {
             console.error('Error al eliminar la categoría:', error);
@@ -60,15 +64,19 @@ export const MostrarCategorias = () => {
                                     <th>id</th>
                                     <th>Name</th>
                                     <th>Image</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody className='table-group-divider'>
-                                {products.map((product, i) => (
-                                    <tr key={product.id}>
+                                {categories.map((categorie, i) => (
+                                    <tr key={categorie.id}>
                                         <td>{i + 1}</td>
-                                        <td>{product.id}</td>
-                                        <td><p>{product.name}</p></td>
-                                        <td><p className='text-center'><img src={product.image} alt="" style={{ height: '200px' }} /></p></td>
+                                        <td>{categorie.id}</td>
+                                        <td><p>{categorie.name}</p></td>
+                                        <td><p className='text-center'><img src={categorie.image} alt="" style={{ height: '200px' }} /></p></td>
+                                        <td> <button className='btn btn-danger' onClick={() => handleDelete(categorie.id)}>Eliminar</button> 
+                                        <button className='btn btn-warning' onClick={() => editar(categorie.id)}>Editar</button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
